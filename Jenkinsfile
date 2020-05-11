@@ -31,6 +31,9 @@ pipeline {
 
 
         stage ('Deployment Stage') {
+            when {
+                branch 'master'
+            }
             steps {
                 withMaven(maven : 'maven_3.5.2') {
                     sh 'mvn clean install'
