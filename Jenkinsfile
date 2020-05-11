@@ -5,26 +5,44 @@ pipeline {
         stage ('Compile Stage') {
 
             steps {
-                withMaven(maven : 'maven_3_5_0') {
+                withMaven(maven : 'maven_3.5.2') {
                     sh 'mvn clean compile'
                 }
             }
         }
+        stage ('Test') {
+            parallel {
+                    stage ('Testing Stage') {
 
-        stage ('Testing Stage') {
+                    steps {
+                        withMaven(maven : 'maven_3.5.2') {
+                            sh 'mvn test'
+                        }
+                    }
+                  }
+                    stage ('Performance Testing Stage') {
 
-            steps {
-                withMaven(maven : 'maven_3_5_0') {
-                    sh 'mvn test'
-                }
-            }
-        }
+                    steps {
+                     echo 'Performance testing'
+                     }
+             }
+                    stage ('Integration Testing Stage') {
+
+                    steps {
+                     echo 'Integration testing'
+                     }
+             }
+    }
+ }
 
 
         stage ('Deployment Stage') {
+            when {
+                branch 'master'
+            }
             steps {
-                withMaven(maven : 'maven_3_5_0') {
-                    sh 'mvn deploy'
+                withMaven(maven : 'maven_3.5.2') {
+                    sh 'mvn clean install'
                 }
             }
         }
