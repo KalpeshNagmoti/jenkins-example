@@ -10,21 +10,24 @@ pipeline {
                 }
             }
         }
-
-        stage ('Testing Stage') {
-
-            steps {
-                withMaven(maven : 'maven_3.5.2') {
-                    sh 'mvn test'
-                }
-            }
-                stage ('Performance Testing Stage') {
+        stage ('Test') {
+            parallel {
+                    stage ('Testing Stage') {
 
                     steps {
-                         echo 'Performance testing'
-                         }
-                 }
-        }
+                        withMaven(maven : 'maven_3.5.2') {
+                            sh 'mvn test'
+                        }
+                    }
+                  }
+                    stage ('Performance Testing Stage') {
+
+                    steps {
+                     echo 'Performance testing'
+                     }
+             }
+    }
+ }
 
 
         stage ('Deployment Stage') {
