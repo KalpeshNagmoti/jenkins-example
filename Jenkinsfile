@@ -18,6 +18,12 @@ pipeline {
                     sh 'mvn test'
                 }
             }
+            stage ('Performance Testing Stage') {
+
+            steps {
+                    echo 'Performance testing'
+            }
+        }
         }
 
 
