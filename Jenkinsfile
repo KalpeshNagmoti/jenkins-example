@@ -36,7 +36,7 @@ pipeline {
             }
             steps {
                 withMaven(maven : 'maven_3.5.2') {
-                    sh 'mvn clean install'
+                    sh 'mvn deploy'
                 }
             }
         }
